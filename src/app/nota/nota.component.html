@@ -1,0 +1,77 @@
+<app-menu></app-menu>
+
+<div class="card flex justify-content-center m-3">
+    <p-button (click)="showDialogCreate()" label="Crear" />
+    <p-dialog header="{{titulo}}" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem', height: '30rem' }">
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="nota1" class="font-semibold w-6rem">Primera Nota:</label>
+            <input pInputText [(ngModel)]="nota.nota1" id="nota1" class="flex-auto" autocomplete="off" />
+        </div>
+
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="nota2" class="font-semibold w-6rem">Segunda Nota:</label>
+            <input pInputText [(ngModel)]="nota.nota2" id="nota2" class="flex-auto" autocomplete="off" />
+        </div>
+
+        <div class="flex align-items-center gap-3 mb-3">
+            <label for="nota3" class="font-semibold w-6rem">Tercera Nota:</label>
+            <input pInputText [(ngModel)]="nota.nota3" id="nota3" class="flex-auto" autocomplete="off" />
+        </div>
+
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="alumno" class="font-semibold w-6rem">Alumno:</label>
+            <p-dropdown [options]="alumnos" [(ngModel)]="nota.alumno" optionLabel="nombreCompleto"
+                placeholder="Seleccione un Alumno" class="flex-auto">
+            </p-dropdown>
+        </div>
+        <div class="flex align-items-center gap-3 mb-5">
+            <label for="curso" class="font-semibold w-6rem">Curso:</label>
+            <p-dropdown [options]="cursos" [(ngModel)]="nota.curso" optionLabel="nombre"
+                placeholder="Seleccione un Curso" class="flex-auto">
+            </p-dropdown>
+        </div>
+
+        <div class="flex justify-content-end gap-2">
+            <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+            <p-button label="{{opc}}" (click)="opcion()" />
+        </div>
+    </p-dialog>
+</div>
+
+<div class="mt-3" style="width: 100%; display: flex; justify-content: center;">
+    <div class="card" style="width: 75%;">
+        <p-table [value]="notas" [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>ID</th>
+                    <th>Primera Nota</th>
+                    <th>Segunda Nota</th>
+                    <th>Tercera Nota</th>
+                    <th>Promedio</th>
+                    <th>Alumno</th>
+                    <th>Curso</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.nota1 }}</td>
+                    <td>{{ product.nota2 }}</td>
+                    <td>{{ product.nota3 }}</td>
+                    <td>{{ product.promedio}}</td>
+                    <td>{{ product.alumno?.nombres }}</td>
+                    <td>{{ product.curso?.nombre }}</td>
+                    <td>
+                        <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded"
+                            (click)="showDialogEdit(product.id)"></button>
+                        <button pButton pRipple type="button" icon="pi pi-trash"
+                            class="p-button-rounded p-button-danger" (click)="deleteNotas(product.id)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<p-toast />
+<p-confirmDialog />
